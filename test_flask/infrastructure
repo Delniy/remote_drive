@@ -1,0 +1,4 @@
+[controller-comments]
+192.168.71.74
+[controller-comments:vars]
+ansible_become_pass=ltytuytlfv24

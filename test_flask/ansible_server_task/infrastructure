@@ -1,0 +1,17 @@
+[server]
+192.168.71.73
+
+[controller]
+192.168.71.52
+
+[controller-comments]
+192.168.71.74
+
+[controller-plugin]
+192.168.71.53
+
+[balancer]
+192.168.71.60
+
+[controller-comments:vars]
+ansible_become_pass=ltytuytlfv24

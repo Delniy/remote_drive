@@ -1,0 +1,14 @@
+- name: stop_rabbit
+  service: state=stopped name=rabbitmq-server
+  tags:
+  - stop_rabbit
+
+- name: start_rabbit
+  service: state=started name=rabbitmq-server
+  tags:
+  - start_rabbit
+
+- name: restart_rabbit
+  service: state=restarted name=rabbitmq-server
+  tags:
+  - restart_rabbit

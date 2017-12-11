@@ -1,0 +1,14 @@
+- name: stop_redis
+  service: state=stopped name=redis-server
+  tags:
+  - stop_redis
+
+- name: start_redis
+  service: state=started name=redis-server
+  tags:
+  - start_redis
+
+- name: restart_redis
+  service: state=restarted name=redis-server
+  tags:
+  - restart_redis

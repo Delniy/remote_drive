@@ -1,0 +1,6 @@
+- hosts: controller-comments
+  remote_user: mad
+  become: true
+  roles:
+  - service_manager
+  - redis_manager

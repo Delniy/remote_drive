@@ -1,0 +1,245 @@
+{% block content %}
+<style>
+    .serverlist{
+        position: relative;
+        width: 50%;
+        float: left
+    }
+</style>
+
+<script>
+function selectedServer(){
+    var ServerCheckbox = document.querySelectorAll('.ServerCheckbox');
+    console.log(ServerCheckbox)
+	var selected = []
+	ServerCheckbox.forEach(function(checkbox){
+		console.log(checkbox);
+		if (checkbox.checked) {
+			selected.push(checkbox.getAttribute('value'));
+        }
+		}
+	)
+	selected = {server:selected};
+	return selected
+}
+
+function selectedService(){
+    var formCheckboxiesService = document.querySelectorAll('.service');
+    console.log(formCheckboxiesService)
+	var services = []
+	formCheckboxiesService.forEach(function(checkbox){
+		console.log(checkbox);
+		if (checkbox.checked) {
+			services.push(checkbox.getAttribute('value'));
+        }
+		}
+	)
+	services = {service:services}
+	return services
+}
+
+function startRMQ() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+	selected ={selected};
+    xhr.open('POST', "/startRMQ", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно запущен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function stopRMQ() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+    selected ={selected};
+    xhr.open('POST', "/stopRMQ", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно остановлен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function restartRMQ() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+    selected ={selected};
+    xhr.open('POST', "/restartRMQ", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно остановлен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+
+function startRedis() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+	selected ={selected};
+    xhr.open('POST', "/startRedis", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно запущен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function stopRedis() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+    selected ={selected};
+    xhr.open('POST', "/stopRedis", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно остановлен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function restartRedis() {
+    var xhr = new XMLHttpRequest();
+    selected = selectedServer();
+	selected ={selected};
+    xhr.open('POST', "/restartRedis", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(selected));
+    if (xhr.status == 200) {
+        alert('Сервис успешно запущен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+
+function startSupervisorService() {
+    var xhr = new XMLHttpRequest();
+    var serverservice = {};
+    selected = selectedServer();
+    services = selectedService();
+    serverservice={services, selected};
+    console.log(serverservice);
+    console.log(JSON.stringify(serverservice));
+    xhr.open('POST', "/startSVS", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(serverservice));
+    if (xhr.status == 200) {
+        alert('Сервис успешно запущен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function stopSupervisorService() {
+    var xhr = new XMLHttpRequest();
+    var serverservice = {};
+    selected = selectedServer();
+    services = selectedService();
+    serverservice={services, selected};
+    console.log(serverservice);
+    console.log(JSON.stringify(serverservice));
+    xhr.open('POST', "/stopSVS", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(serverservice));
+    if (xhr.status == 200) {
+        alert('Сервис успешно остановлен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+function restartSupervisorService() {
+    var xhr = new XMLHttpRequest();
+    var serverservice = {};
+    selected = selectedServer();
+    services = selectedService();
+    serverservice={services, selected};
+    console.log(serverservice);
+    console.log(JSON.stringify(serverservice));
+    xhr.open('POST', "/restartSVS", false);
+	xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(serverservice));
+    if (xhr.status == 200) {
+        alert('Сервис успешно запущен');
+    } else {
+        alert('Произошла ошибка!');
+    }
+}
+
+
+</script>
+
+<div class="col-md-4 tags-box">
+
+    <!--button onclick="ansible-playbook /home/rizhikov_v/ansible_server_task/main.yml -i infrastructure --tags=restart_rabbit">stop rabbit</button-->
+    <h2>Серверы:</h2>
+    <input type="checkbox" class="ServerCheckbox" name="server" value="192.168.71.74">192.168.71.74<Br>
+    <input type="checkbox" class="ServerCheckbox" name="server" value="192.168.71.75">192.168.71.75<Br>
+    <input type="checkbox" class="ServerCheckbox" name="server" value="a4"><Br>
+    <input type="checkbox" class="ServerCheckbox" name="server" value="a5"></p>
+
+<div class="serverlist">
+    <h3>Сервисы краулера</h3>
+    <input type="checkbox" class="service" name="service" value="cs-controller-comments:">cs-controller-comments<Br>
+    <input type="checkbox" class="service" name="service" value="cs-controller:">cs-controller<Br>
+    <input type="checkbox" class="service" name="service" value="cs-controller-plugin:">cs-controller-plugin<Br>
+    <input type="checkbox" class="service" name="service" value="cs-downloader:">cs-downloader<Br>
+    <input type="checkbox" class="service" name="service" value="cs-parser:">cs-parser<Br>
+    <input type="checkbox" class="service" name="service" value="cs-crawler-flower:">cs-crawler-flower<Br>
+    <input type="checkbox" class="service" name="service" value="cs-crawler-logger:">cs-crawler-logger<Br>
+    <input type="checkbox" class="service" name="service" value="cs-finisher:">cs-finisher<Br>
+    <input type="checkbox" class="service" name="service" value="cs-manager:">cs-manager<Br>
+    <input type="checkbox" class="service" name="service" value="cs-messenger:">cs-messenger<Br>
+    <input type="checkbox" class="service" name="service" value="cs-processor:">cs-processor<Br>
+    <input type="checkbox" class="service" name="service" value="cs-virtual-bro:">cs-virtual-bro<Br>
+</div>
+
+<div class="serverlist">
+    <h3>Сервисы сервера</h3>
+    <input type="checkbox" class="service" name="service" value="cs-cleaner">cs-cleaner<Br>
+    <input type="checkbox" class="service" name="service" value="cs-content-sender">cs-content-sender<Br>
+    <input type="checkbox" class="service" name="service" value="cs-process-crawler-result">cs-process-crawler-result<Br>
+    <input type="checkbox" class="service" name="service" value="cs-server">cs-server<Br>
+    <input type="checkbox" class="service" name="service" value="cs-server-flower">cs-server-flower<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:comments">cs-starter:comments<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:etalons">cs-starter:etalons<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:new">cs-starter:new<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:root">cs-starter:root<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:source_check">cs-starter:source_check<Br>
+    <input type="checkbox" class="service" name="service" value="cs-starter:update">cs-starter:update<Br>
+    <input type="checkbox" class="service" name="service" value="cs-status-changer">cs-status-changer<Br>
+    <input type="checkbox" class="service" name="service" value="cs-subscriber">cs-subscriber<Br>
+</div>
+
+
+    <input type="button"  onclick="startSupervisorService()" value="Start Service Supervicor" name="startSVS"></input>
+    <input type="button"  onclick="stopSupervisorService()" value="Stop Service Supervicor" name="stopSVS"></input>
+    <input type="button"  onclick="restartSupervisorService()" value="Restart Service Supervicor" name="RestartSVS"></input>
+
+
+    <h2>Rabbit</h2>
+    <input type="button"  onclick="startRMQ()" value="Start rmq" name="stopRMQ"></input>
+	<input type="button"  onclick="stopRMQ()" value="Stop rmq" name="stopRMQ"></input>
+    <input type="button"  onclick="restartRMQ()" value="Restart rmq" name="restartRMQ"></input>
+
+
+    <h2>Redis</h2>
+    <input type="button"  onclick="startRedis()" value="Start redis" name="startRedis"></input>
+    <input type="button"  onclick="stopRedis()" value="Stop redis" name="stopRedis"></input>
+    <input type="button"  onclick="restartRedis()" value="Restart redis" name="restartRedis"></input>
+
+</div>
+
+{% endblock %}

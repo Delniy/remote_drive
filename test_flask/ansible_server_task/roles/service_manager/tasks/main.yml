@@ -1,0 +1,20 @@
+- name: start
+  supervisorctl: state=started name={{ item }}
+  with_items:
+    - "{{ services }}"
+  tags:
+  - start_service
+
+- name: stop
+  supervisorctl: state=stopped name={{ item }}
+  with_items:
+    - "{{ services }}"
+  tags:
+  - stop_service
+
+- name: start
+  supervisorctl: state=restarted name={{ item }}
+  with_items:
+    - "{{ services }}"
+  tags:
+  - restart_service
